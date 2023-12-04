@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace E_Commerce_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUserProductCategorySellerDiscountTables : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,22 +75,6 @@ namespace E_Commerce_Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Discount",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiscountPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Discount", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,7 +209,9 @@ namespace E_Commerce_Api.Migrations
                     SellerID = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     StockQuantity = table.Column<int>(type: "int", nullable: false),
-                    DiscountId = table.Column<int>(type: "int", nullable: false)
+                    DiscountDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DiscountPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsDiscountActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,12 +220,6 @@ namespace E_Commerce_Api.Migrations
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Discount_DiscountId",
-                        column: x => x.DiscountId,
-                        principalTable: "Discount",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -295,11 +275,6 @@ namespace E_Commerce_Api.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_DiscountId",
-                table: "Products",
-                column: "DiscountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_SellerID",
                 table: "Products",
                 column: "SellerID");
@@ -334,9 +309,6 @@ namespace E_Commerce_Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Discount");
 
             migrationBuilder.DropTable(
                 name: "Sellers");

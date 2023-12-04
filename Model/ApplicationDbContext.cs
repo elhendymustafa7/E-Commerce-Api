@@ -16,15 +16,15 @@ namespace E_Commerce_Api.Model
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Product>()
-            .HasOne<Category>()
-            .WithMany()
-            .HasForeignKey(s => s.CategoryId);
+            //modelBuilder.Entity<Product>()
+            //.HasOne<Category>()
+            //.WithMany()
+            //.HasForeignKey(s => s.CategoryId);
             
-            modelBuilder.Entity<Product>()
-            .HasOne<Seller>()
-            .WithMany()
-            .HasForeignKey(s => s.SellerID);
+            //modelBuilder.Entity<Product>()
+            //.HasOne<Seller>()
+            //.WithMany()
+            //.HasForeignKey(s => s.SellerID);
 
             modelBuilder.Entity<Product>()
             .Property(e => e.DiscountDescription) 

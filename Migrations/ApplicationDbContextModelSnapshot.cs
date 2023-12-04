@@ -17,7 +17,7 @@ namespace E_Commerce_Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -40,7 +40,7 @@ namespace E_Commerce_Api.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("E_Commerce_Api.Model.Product", b =>
@@ -86,7 +86,7 @@ namespace E_Commerce_Api.Migrations
 
                     b.HasIndex("SellerID");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("E_Commerce_Api.Model.Seller", b =>
@@ -107,7 +107,7 @@ namespace E_Commerce_Api.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Sellers", (string)null);
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("E_Commerce_Api.Model.User", b =>
@@ -354,17 +354,21 @@ namespace E_Commerce_Api.Migrations
 
             modelBuilder.Entity("E_Commerce_Api.Model.Product", b =>
                 {
-                    b.HasOne("E_Commerce_Api.Model.Category", null)
-                        .WithMany()
+                    b.HasOne("E_Commerce_Api.Model.Category", "Category")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_Commerce_Api.Model.Seller", null)
-                        .WithMany()
+                    b.HasOne("E_Commerce_Api.Model.Seller", "Seller")
+                        .WithMany("products")
                         .HasForeignKey("SellerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -416,6 +420,16 @@ namespace E_Commerce_Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("E_Commerce_Api.Model.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("E_Commerce_Api.Model.Seller", b =>
+                {
+                    b.Navigation("products");
                 });
 #pragma warning restore 612, 618
         }

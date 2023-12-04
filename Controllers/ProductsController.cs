@@ -8,14 +8,18 @@ namespace E_Commerce_Api.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductsController(IUnitOfWork unitOfWork)
+        private readonly ApplicationDbContext _context;
+        public ProductsController(IUnitOfWork unitOfWork, ApplicationDbContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         [HttpGet("GetProducts")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts() => Ok(await _unitOfWork.Products.GetAsync());
-
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts() //=> Ok(await _unitOfWork.Products.GetAsync());
+        {
+         return Ok(await  _context.Products.ToListAsync());
+        }
         [HttpGet("GetProduct/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {

@@ -10,10 +10,10 @@ namespace E_Commerce_Api.Repository
         {
             _context = context;
         }
-        public IEnumerable<T> Get() => _context.Set<T>().ToList();
-        public async Task<IEnumerable<T>> GetAsync() => await _context.Set<T>().ToListAsync();
-        public T GetById(int id) => _context.Set<T>().Find(id);
-        public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FindAsync(id);
+        public IEnumerable<T> Get() => _context.Set<T>().AsNoTracking().ToList();
+        public async Task<IEnumerable<T>> GetAsync() => await _context.Set<T>().AsNoTracking().ToListAsync();
+        public T GetById(int id) => _context.Set<T>().AsNoTracking().FirstOrDefault(t => EF.Property<int>(t, "ID") == id);
+        public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(t => EF.Property<int>(t, "ID") == id);
         public T Add(T entity)
         {
             _context.Set<T>().Add(entity);

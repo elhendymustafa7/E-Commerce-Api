@@ -5,13 +5,15 @@ namespace E_Commerce_Api.Model
     {
         public int ID { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } // title
         [Required]
         public string Description { get; set; }
         [Required]
         public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
         [Required]
         public int SellerID { get; set; }
+        public virtual Seller Seller { get; set; }
         [Required]
         public decimal Price { get; set; }
         [Required]
